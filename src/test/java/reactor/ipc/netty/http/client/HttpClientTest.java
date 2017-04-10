@@ -159,13 +159,13 @@ public class HttpClientTest {
 		                                            .get("/test/test.css");
 
 		Mono<String> page = remote
-				.flatMap(r -> r.receive()
+				.flatMapMany(r -> r.receive()
 				               .asString()
 				               .limitRate(1))
 				.reduce(String::concat);
 
 		Mono<String> cancelledPage = remote
-				.flatMap(r -> r.receive()
+				.flatMapMany(r -> r.receive()
 				               .asString()
 				               .take(5)
 				               .limitRate(1))
@@ -225,7 +225,7 @@ public class HttpClientTest {
 				                .sendHeaders());
 
 		Mono<String> page = remote
-				.flatMap(r -> r.receive()
+				.flatMapMany(r -> r.receive()
 				               .retain()
 				               .asString()
 				               .limitRate(1))
